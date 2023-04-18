@@ -36,7 +36,7 @@ Cpu::Cpu() {
 
 Cpu::~Cpu() {}
 
-void Cpu::load(int p, char s, int c, int d) { //P é o periodo da tarefa 
+void Cpu::load(int p, char s, int c, int d) { //P é o PID da tarefa 
 	symbol = s; //Simbolo da Thread
 	deadline = d; //Deadline do processo
 	if (pid == -1) //Para ver se a tarefa já foi inicializada  
@@ -49,7 +49,7 @@ void Cpu::load(int p, char s, int c, int d) { //P é o periodo da tarefa
 				++numPreemp;
 		}
 	}
-	comput = c;
+	comput = c; //Computação
 }
 
 void Cpu::run() {
@@ -81,10 +81,10 @@ int Cpu::getNumContSwitch() {
 
 int main() {
 	Cpu cpu;
-	
+	//(0<<5) -> É o PID 
 	cout << "----- (LST)" << endl;
-	cpu.load((0<<5)|0,'A',2,4); // Carrega a atividade A
-	cpu.run();
+	cpu.load((0<<5)|0,'A',2,4); // Carrega a atividade A //(0<<5)|0 Ultimos 5 bits significativos
+	cpu.run(); //(p,s,c,d)
 	cpu.run();
 	cpu.load((0<<5)|1,'B',5,10);// Carrega a atividade B
 	cpu.run();
