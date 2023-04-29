@@ -35,7 +35,7 @@ int main()
 	update_abs_arrival(t, n, 0, ALL);
 	update_abs_deadline(t, n, ALL);
 
-	while (timer <= hyper_period) //Aqui processa as tasks a serem feitea
+	while (timer <= hyper_period) //Aqui processa as tasks a serem feitea //O meu hyper_period é o T 
 	{
 
 		if (sp_interrupt(t, timer, n))

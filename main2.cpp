@@ -4,18 +4,23 @@
 #define C 0 //Execution
 #define P 1 //Period
 #define D 2 //Deadline
+#define copia_exec 3
+#define abs_D 4
+
 
 using namespace std;
 
 class Task{
     private:
-    int T[6]; //Armazena as caracteristicas da classe 
+    int T[5]; //Armazena as caracteristicas da classe 
     int instance,alive; //Talvez mude dps
     public:
     void get_tasks(Task *t1,int n);	
     float cpu_util(Task *t1,int n);	
-
-
+    int sp_interrupt(Task *t1,int tmr,int n);	
+    int min(Task *t1,int n,int p);		
+    void update_abs_deadline(Task *t1,int n,int all);
+    void copy_execution_time(Task *t1,int n,int all);
 };
 
  void Task::get_tasks(Task *t1, int n) //A função cria e pega os dados das tasks
