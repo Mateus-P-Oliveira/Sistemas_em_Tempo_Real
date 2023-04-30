@@ -31,13 +31,13 @@ class Task{
 	int i = 0;
 	while (i < n)
 	{
-		printf("Enter Task %d parameters\n", i + 1);
-		printf("Execution time: ");
-		cin >> t1->T[C];
-		printf("Deadline time: ");
-		cin >> t1->T[D];
-		printf("Period: ");
-		cin >>  t1->T[P];
+		//printf("Enter Task %d parameters\n", i + 1);
+		//printf("Execution time: ");
+		cin >> t1->T[C] >>  t1->T[P]  >> t1->T[D];
+		//printf("Deadline time: ");
+		//cin >> t1->T[D];
+		//printf("Period: ");
+		//cin >>  t1->T[P];
 		//t1->T[abs_arrival] = 0; //O T esta na h file
 		t1->T[copia_exec] = 0;
 		t1->T[abs_D] = 0;
@@ -182,10 +182,12 @@ int main(){
  int active_task_id;
  int timer = 0;
  float tempo_de_compu;
- 
+ char taskNo;
 
  Task *task;
     cin >> N >> T;;
+
+	
     task =(Task *) malloc(N * sizeof(Task));
     
     task->get_tasks(task,N);
@@ -195,7 +197,7 @@ int main(){
 	task->update_abs_arrival(task, N, 0, 1);
 	task->update_abs_deadline(task, N, 1);
 
-    while (timer <= T) //Aqui processa as tasks a serem feitea //O meu hyper_period é o T 
+    while (timer < T) //Aqui processa as tasks a serem feitea //O meu hyper_period é o T 
 	{
 
 		if (task->sp_interrupt(task, timer, N))
@@ -207,7 +209,7 @@ int main(){
 
 		if (active_task_id == IDLE_TASK_ID)
 		{
-			printf("%d  Idle\n", timer);
+			printf(".");
 		}
 
 		if (active_task_id != IDLE_TASK_ID)
@@ -216,7 +218,24 @@ int main(){
 			if (task[active_task_id].T[copia_exec] != 0)
 			{
 				task[active_task_id].T[copia_exec]--;
-				printf("%d  Task %d\n", timer, active_task_id + 1);
+				switch(active_task_id + 1) {
+  					case 1:
+						taskNo = 'A';
+    				break;
+  					case 2:
+						taskNo = 'B';
+    				break;
+					case 3:
+						taskNo = 'C';
+    				break;
+					case 4:
+						taskNo = 'C';
+    				break;
+  					default:
+						taskNo = 'D';
+   
+				}
+				printf("%c",  taskNo );
 			}
 
 			if (task[active_task_id].T[copia_exec] == 0)
