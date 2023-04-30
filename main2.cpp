@@ -41,6 +41,7 @@ class Task{
 		//t1->T[abs_arrival] = 0; //O T esta na h file
 		t1->T[copia_exec] = 0;
 		t1->T[abs_D] = 0;
+        t1->T[abs_upd] = 0;
 		t1->instance = 0;
 		t1->alive = 0;
 		t1++;
@@ -224,6 +225,7 @@ int main(){
 		{
             cout << "OI" << endl;
 			active_task_id = task->min(task, N, abs_D);
+            cout << active_task_id << endl;
 		}
 
 		if (active_task_id == 9595)
