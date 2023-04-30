@@ -7,7 +7,7 @@
 #define copia_exec 3
 #define abs_D 4
 #define abs_upd 5
-
+#define IDLE_TASK_ID 9955
 using namespace std;
 
 class Task{
@@ -101,7 +101,7 @@ int Task::sp_interrupt(Task *t1,int tmr,int n){
 }
 
 int Task::min(Task *t1,int n,int p){
-    int i = 0, min = 0, task_id = 9595;
+    int i = 0, min = 0x7FFF, task_id = IDLE_TASK_ID;
 	while (i < n)
 	{
 		if (min > t1->T[p] && t1->alive == 1)
@@ -143,7 +143,7 @@ void Task::update_abs_arrival(Task *t1, int n, int k, int all)
 	{
 		while (i < n)
 		{
-			t1->T[abs_upd] = 1 + k * (t1->T[P]);
+			t1->T[abs_upd] = 0 + k * (t1->T[P]);
 			t1++;
 			i++;
 		}
@@ -151,7 +151,7 @@ void Task::update_abs_arrival(Task *t1, int n, int k, int all)
 	else
 	{
 		t1 += n;
-		t1->T[abs_upd] = 1 + k * (t1->T[P]);
+		t1->T[abs_upd] = 0 + k * (t1->T[P]);
 	}
 }
 
@@ -192,48 +192,25 @@ int main(){
     cin >> T;
     task->get_tasks(task,N);
     tempo_de_compu = task->cpu_util(task,N);
-    cout << tempo_de_compu << endl;
-    
-    /*if(N != 0 && T !=0){
-    for(int i = 0; i < N; i++){ //Se o numero de tarefas não for zero e não tiver o tempo O
-       
-        cin >> c;
-        cin >> p; // Refazer essa parte
-        cin >> d;
-                    
-         int i_c, i_p, i_d;
-         i_c = c;
-         i_p = p;
-         i_d = d;
-         
-
-            
-         cout << c << p << d << endl;
-         cout << priority << endl;
-            //Executa Tasks de teste
-        }
-       
-    }
-
-
-    cout << priority << endl;*/
+    cout << "Tempo de Computação: " << tempo_de_compu << endl;
+  	task->copy_execution_time(task, N, 1);
 
     while (timer <= T) //Aqui processa as tasks a serem feitea //O meu hyper_period é o T 
 	{
 
 		if (task->sp_interrupt(task, timer, N))
 		{
-            cout << "OI" << endl;
+           
 			active_task_id = task->min(task, N, abs_D);
-            cout << active_task_id << endl;
+           
 		}
 
-		if (active_task_id == 9595)
+		if (active_task_id == IDLE_TASK_ID)
 		{
 			printf("%d  Idle\n", timer);
 		}
 
-		if (active_task_id != 9595)
+		if (active_task_id != IDLE_TASK_ID)
 		{
 
 			if (task[active_task_id].T[copia_exec] != 0)
