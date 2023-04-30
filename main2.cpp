@@ -184,16 +184,16 @@ int main(){
  float tempo_de_compu;
  
 
- //int priority = 0; 
- //int c, p, d;
  Task *task;
-    cin >> N;
+    cin >> N >> T;;
     task =(Task *) malloc(N * sizeof(Task));
-    cin >> T;
+    
     task->get_tasks(task,N);
     tempo_de_compu = task->cpu_util(task,N);
-    cout << "Tempo de Computação: " << tempo_de_compu << endl;
+   
   	task->copy_execution_time(task, N, 1);
+	task->update_abs_arrival(task, N, 0, 1);
+	task->update_abs_deadline(task, N, 1);
 
     while (timer <= T) //Aqui processa as tasks a serem feitea //O meu hyper_period é o T 
 	{
@@ -231,7 +231,17 @@ int main(){
 		}
 		++timer;
 	}
+		cout << endl;
+
+	if(tempo_de_compu <= 1){
+		cout << tempo_de_compu << " OK" << endl;
+	}
+	else{
+		cout << tempo_de_compu << " NOK" << endl;
+	}
+	free(task);
+
+
 
     return 0;
-
 }
