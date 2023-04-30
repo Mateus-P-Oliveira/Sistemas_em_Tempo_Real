@@ -23,6 +23,7 @@ class Task{
     int min(Task *t1,int n,int p);		
     void update_abs_deadline(Task *t1,int n,int all);
     void copy_execution_time(Task *t1,int n,int all);
+    void update_abs_arrival(Task *t1, int n, int k, int all);
 };
 
  void Task::get_tasks(Task *t1, int n) //A função cria e pega os dados das tasks
@@ -67,7 +68,7 @@ int Task::sp_interrupt(Task *t1,int tmr,int n){
 	t1_copy = t1;
 	while (i < n)
 	{
-		if (tmr == t1->T[abs_arrival]) //Se o timer for igual ao valor da chegada absoluta da task ele diz que a task esta viva //Isso inicia as tasks
+		if (tmr == t1->T[abs_upd]) //Se o timer for igual ao valor da chegada absoluta da task ele diz que a task esta viva //Isso inicia as tasks
 		{
 			t1->alive = 1;
 			a++;
@@ -120,7 +121,7 @@ void Task::update_abs_deadline(Task *t1,int n,int all){
 	{
 		while (i < n)
 		{
-			t1->T[abs_D] = t1->T[D] + 0;
+			t1->T[abs_D] = t1->T[D] + t1->T[abs_upd];
 			t1++;
 			i++;
 		}
@@ -128,12 +129,30 @@ void Task::update_abs_deadline(Task *t1,int n,int all){
 	else
 	{
 		t1 += n;
-		t1->T[abs_D] = t1->T[D] + 0;
+		t1->T[abs_D] = t1->T[D] + t1->T[abs_upd];
 	}
 
 
 }
 
+void Task::update_abs_arrival(Task *t1, int n, int k, int all)
+{
+	int i = 0;
+	if (all)
+	{
+		while (i < n)
+		{
+			t1->T[abs_upd] = 1 + k * (t1->T[P]);
+			t1++;
+			i++;
+		}
+	}
+	else
+	{
+		t1 += n;
+		t1->T[abs_upd] = 1 + k * (t1->T[P]);
+	}
+}
 
 void Task::copy_execution_time(Task *t1,int n,int all){
     	int i = 0;
@@ -226,7 +245,7 @@ int main(){
 				task[active_task_id].instance++;
 				task[active_task_id].alive = 0;
 				task->copy_execution_time(task, active_task_id, 0);
-				//update_abs_arrival(t, active_task_id, t[active_task_id].instance, CURRENT);
+				task->update_abs_arrival(task, active_task_id, task[active_task_id].instance, 0);
 				task->update_abs_deadline(task, active_task_id, 0);
 				active_task_id = task->min(task, N, abs_D);
 			}
