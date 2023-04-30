@@ -178,89 +178,91 @@ void Task::copy_execution_time(Task *t1,int n,int all){
 
 
 int main(){
- int N, T; //time_T e tasks_N
+ int N = 1, T= 1; //time_T e tasks_N
  int active_task_id;
  int timer = 0;
  float tempo_de_compu;
  char taskNo;
-
  Task *task;
-    cin >> N >> T;;
-
 	
-    task =(Task *) malloc(N * sizeof(Task));
-    
-    task->get_tasks(task,N);
-    tempo_de_compu = task->cpu_util(task,N);
-   
-  	task->copy_execution_time(task, N, 1);
-	task->update_abs_arrival(task, N, 0, 1);
-	task->update_abs_deadline(task, N, 1);
 
-    while (timer < T) //Aqui processa as tasks a serem feitea //O meu hyper_period é o T 
-	{
 
-		if (task->sp_interrupt(task, timer, N))
-		{
-           
-			active_task_id = task->min(task, N, abs_D);
-           
-		}
+	while(N != 0 || T !=0 ){		
+		cin >> N >> T;
 
-		if (active_task_id == IDLE_TASK_ID)
-		{
-			printf(".");
-		}
+		task =(Task *) malloc(N * sizeof(Task));
+		
+		task->get_tasks(task,N);
+		tempo_de_compu = task->cpu_util(task,N);
+	
+		task->copy_execution_time(task, N, 1);
+		task->update_abs_arrival(task, N, 0, 1);
+		task->update_abs_deadline(task, N, 1);
 
-		if (active_task_id != IDLE_TASK_ID)
+		while (timer < T) //Aqui processa as tasks a serem feitea //O meu hyper_period é o T 
 		{
 
-			if (task[active_task_id].T[copia_exec] != 0)
+			if (task->sp_interrupt(task, timer, N))
 			{
-				task[active_task_id].T[copia_exec]--;
-				switch(active_task_id + 1) {
-  					case 1:
-						taskNo = 'A';
-    				break;
-  					case 2:
-						taskNo = 'B';
-    				break;
-					case 3:
-						taskNo = 'C';
-    				break;
-					case 4:
-						taskNo = 'C';
-    				break;
-  					default:
-						taskNo = 'D';
-   
-				}
-				printf("%c",  taskNo );
-			}
-
-			if (task[active_task_id].T[copia_exec] == 0)
-			{
-				task[active_task_id].instance++;
-				task[active_task_id].alive = 0;
-				task->copy_execution_time(task, active_task_id, 0);
-				task->update_abs_arrival(task, active_task_id, task[active_task_id].instance, 0);
-				task->update_abs_deadline(task, active_task_id, 0);
+				//cout << " " << timer << " " << N << " ";
 				active_task_id = task->min(task, N, abs_D);
+			
 			}
+
+			if (active_task_id == IDLE_TASK_ID)
+			{
+				printf(".");
+			}
+
+			if (active_task_id != IDLE_TASK_ID)
+			{
+
+				if (task[active_task_id].T[copia_exec] != 0)
+				{
+					task[active_task_id].T[copia_exec]--;
+					switch(active_task_id + 1) {
+						case 1:
+							taskNo = 'A';
+						break;
+						case 2:
+							taskNo = 'B';
+						break;
+						case 3:
+							taskNo = 'C';
+						break;
+						case 4:
+							taskNo = 'C';
+						break;
+						default:
+							taskNo = 'D';
+	
+					}
+					printf("%c",  taskNo );
+				}
+
+				if (task[active_task_id].T[copia_exec] == 0)
+				{
+					task[active_task_id].instance++;
+					task[active_task_id].alive = 0;
+					task->copy_execution_time(task, active_task_id, 0);
+					task->update_abs_arrival(task, active_task_id, task[active_task_id].instance, 0);
+					task->update_abs_deadline(task, active_task_id, 0);
+					active_task_id = task->min(task, N, abs_D);
+				}
+			}
+			++timer;
 		}
-		++timer;
+			cout << endl;
+
+		if(tempo_de_compu <= 1){
+			cout << tempo_de_compu << " OK" << endl;
+		}
+		else{
+			cout << tempo_de_compu << " NOK" << endl;
+		}
+		free(task);
+		timer = 0;
 	}
-		cout << endl;
-
-	if(tempo_de_compu <= 1){
-		cout << tempo_de_compu << " OK" << endl;
-	}
-	else{
-		cout << tempo_de_compu << " NOK" << endl;
-	}
-	free(task);
-
-
-
+	
     return 0;
 }
