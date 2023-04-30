@@ -57,7 +57,50 @@ float Task::cpu_util(Task *t1,int n){
 	return cu;
 
 
+}
+
+int Task::sp_interrupt(Task *t1,int tmr,int n){
+    int i = 0, n1 = 0, a = 0; //I é só contador
+	Task *t1_copy;
+	t1_copy = t1;
+	while (i < n)
+	{
+		if (tmr == 1/*t1->T[abs_arrival]*/) //Se o timer for igual ao valor da chegada absoluta da task ele diz que a task esta viva //Isso inicia as tasks
+		{
+			t1->alive = 1;
+			a++;
+		}
+		t1++;
+		i++;
+	}
+
+	t1 = t1_copy;
+	i = 0;
+
+	while (i < n)
+	{
+		if (t1->alive == 0)
+			n1++;
+		t1++;
+		i++;
+	}
+
+	if (n1 == n || a != 0)
+	{
+		return 1;
+	}
+
+	return 0;
+
+
+
+}
+
+int Task::min(Task *t1,int n,int p){
+
+    
 }	
+
 
 int main(){
  int N, T; //time_T e tasks_N
