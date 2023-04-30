@@ -6,15 +6,17 @@
 #define D 2 //Deadline
 #define copia_exec 3
 #define abs_D 4
-
+#define abs_upd 5
 
 using namespace std;
 
 class Task{
     private:
-    int T[5]; //Armazena as caracteristicas da classe 
-    int instance,alive; //Talvez mude dps
+   
     public:
+    
+    int instance,alive; //Talvez mude dps
+    int T[6]; //Armazena as caracteristicas da classe 
     void get_tasks(Task *t1,int n);	
     float cpu_util(Task *t1,int n);	
     int sp_interrupt(Task *t1,int tmr,int n);	
@@ -36,8 +38,8 @@ class Task{
 		printf("Period: ");
 		cin >>  t1->T[P];
 		//t1->T[abs_arrival] = 0; //O T esta na h file
-		//t1->T[execution_copy] = 0;
-		//t1->T[abs_deadline] = 0;
+		t1->T[copia_exec] = 0;
+		t1->T[abs_D] = 0;
 		t1->instance = 0;
 		t1->alive = 0;
 		t1++;
@@ -65,7 +67,7 @@ int Task::sp_interrupt(Task *t1,int tmr,int n){
 	t1_copy = t1;
 	while (i < n)
 	{
-		if (tmr == 1/*t1->T[abs_arrival]*/) //Se o timer for igual ao valor da chegada absoluta da task ele diz que a task esta viva //Isso inicia as tasks
+		if (tmr == t1->T[abs_arrival]) //Se o timer for igual ao valor da chegada absoluta da task ele diz que a task esta viva //Isso inicia as tasks
 		{
 			t1->alive = 1;
 			a++;
@@ -97,14 +99,71 @@ int Task::sp_interrupt(Task *t1,int tmr,int n){
 }
 
 int Task::min(Task *t1,int n,int p){
+    int i = 0, min = 0, task_id = 9595;
+	while (i < n)
+	{
+		if (min > t1->T[p] && t1->alive == 1)
+		{
+			min = t1->T[p];
+			task_id = i;
+		}
+		t1++;
+		i++;
+	}
+	return task_id;
 
-    
 }	
+
+void Task::update_abs_deadline(Task *t1,int n,int all){
+    int i = 0;
+	if (all)
+	{
+		while (i < n)
+		{
+			t1->T[abs_D] = t1->T[D] + 0;
+			t1++;
+			i++;
+		}
+	}
+	else
+	{
+		t1 += n;
+		t1->T[abs_D] = t1->T[D] + 0;
+	}
+
+
+}
+
+
+void Task::copy_execution_time(Task *t1,int n,int all){
+    	int i = 0;
+	if (all)
+	{
+		while (i < n)
+		{
+			t1->T[copia_exec] = t1->T[C];
+			t1++;
+			i++;
+		}
+	}
+	else
+	{
+		t1 += n;
+		t1->T[copia_exec] = t1->T[C];
+	}
+
+
+
+}
 
 
 int main(){
  int N, T; //time_T e tasks_N
+ int active_task_id;
+ int timer = 0;
  float tempo_de_compu;
+ 
+
  //int priority = 0; 
  //int c, p, d;
  Task *task;
@@ -138,6 +197,42 @@ int main(){
 
 
     cout << priority << endl;*/
+
+    while (timer <= T) //Aqui processa as tasks a serem feitea //O meu hyper_period é o T 
+	{
+
+		if (task->sp_interrupt(task, timer, N))
+		{
+            cout << "OI" << endl;
+			active_task_id = task->min(task, N, abs_D);
+		}
+
+		if (active_task_id == 9595)
+		{
+			printf("%d  Idle\n", timer);
+		}
+
+		if (active_task_id != 9595)
+		{
+
+			if (task[active_task_id].T[copia_exec] != 0)
+			{
+				task[active_task_id].T[copia_exec]--;
+				printf("%d  Task %d\n", timer, active_task_id + 1);
+			}
+
+			if (task[active_task_id].T[copia_exec] == 0)
+			{
+				task[active_task_id].instance++;
+				task[active_task_id].alive = 0;
+				task->copy_execution_time(task, active_task_id, 0);
+				//update_abs_arrival(t, active_task_id, t[active_task_id].instance, CURRENT);
+				task->update_abs_deadline(task, active_task_id, 0);
+				active_task_id = task->min(task, N, abs_D);
+			}
+		}
+		++timer;
+	}
 
     return 0;
 
