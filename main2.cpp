@@ -184,12 +184,12 @@ int main(){
  float tempo_de_compu;
  char taskNo;
  Task *task;
-	
+ int trocaContx, oldTask=-1;
 
 
 	while(N != 0 || T !=0 ){		
 		cin >> N >> T;
-
+		trocaContx = 0;
 		task =(Task *) malloc(N * sizeof(Task));
 		
 		task->get_tasks(task,N);
@@ -212,6 +212,7 @@ int main(){
 			if (active_task_id == IDLE_TASK_ID)
 			{
 				printf(".");
+				trocaContx++;
 			}
 
 			if (active_task_id != IDLE_TASK_ID)
@@ -219,6 +220,9 @@ int main(){
 
 				if (task[active_task_id].T[copia_exec] != 0)
 				{
+					if(active_task_id + 1 != oldTask){
+						trocaContx++;
+					}
 					task[active_task_id].T[copia_exec]--;
 					switch(active_task_id + 1) {
 						case 1:
@@ -238,6 +242,7 @@ int main(){
 	
 					}
 					printf("%c",  taskNo );
+					oldTask = active_task_id + 1;
 				}
 
 				if (task[active_task_id].T[copia_exec] == 0)
@@ -260,6 +265,7 @@ int main(){
 		else{
 			cout << tempo_de_compu << " NOK" << endl;
 		}
+		cout << "Troca de Contexto " << trocaContx << endl;
 		free(task);
 		timer = 0;
 	}
