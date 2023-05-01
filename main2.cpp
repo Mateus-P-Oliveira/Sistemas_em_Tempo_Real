@@ -185,7 +185,7 @@ int main(){
  char taskNo;
  Task *task;
  int trocaContx, oldTask=-1;
-
+int preemp = 0;
 
 	while(N != 0 || T !=0 ){		
 		cin >> N >> T;
@@ -222,6 +222,7 @@ int main(){
 				{
 					if(active_task_id + 1 != oldTask){
 						trocaContx++;
+						
 					}
 					task[active_task_id].T[copia_exec]--;
 					switch(active_task_id + 1) {
@@ -247,6 +248,8 @@ int main(){
 
 				if (task[active_task_id].T[copia_exec] == 0)
 				{
+					//cout << " oi " ;
+					
 					task[active_task_id].instance++;
 					task[active_task_id].alive = 0;
 					task->copy_execution_time(task, active_task_id, 0);
