@@ -350,6 +350,7 @@ int main(){
 		
 		free(task);
 		timer = 0;
+		cout << endl;
 	}
 	
     return 0;
