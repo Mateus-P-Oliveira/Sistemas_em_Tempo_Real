@@ -8,6 +8,7 @@
 #define copia_exec 3
 #define abs_D 4
 #define abs_upd 5
+#define old_exec 6
 #define ESPERA_TASK_ID 9955
 using namespace std;
 
@@ -17,7 +18,7 @@ class Task{
     public:
     
     int instancia,alive;
-    int T[6]; //Armazena as caracteristicas da classe 
+    int T[7]; //Armazena as caracteristicas da classe 
     void pegar_tarefas(Task *t1,int n);	
     float cpu_time(Task *t1,int n);	
     int interrup(Task *t1,int tmr,int n);	
@@ -225,7 +226,10 @@ int already = 1;
 				{
 					
 					if(active_task_id + 1 != oldTask){
-						trocaContx++;		 
+						trocaContx++;	
+						if(task[oldTask].T[old_exec] != 0){
+							preemp++;
+						}	 
 				
 						
 						
@@ -250,7 +254,7 @@ int already = 1;
 					}
 					printf("%c",  taskNo );
 					oldTask = active_task_id + 1;
-					
+					task[oldTask].T[old_exec] = task[active_task_id].T[copia_exec];
 				}
 
 				if (task[active_task_id].T[copia_exec] == 0)
