@@ -246,10 +246,76 @@ int main(){
 							taskNo = 'C';
 						break;
 						case 4:
-							taskNo = 'C';
+							taskNo = 'D';
+						break;
+						case 5:
+							taskNo = 'E';
+						break;
+						case 6:
+							taskNo = 'F';
+						break;
+						case 7:
+							taskNo = 'G';
+						break;
+						case 8:
+							taskNo = 'H';
+						break;
+						case 9:
+							taskNo = 'I';
+						break;
+						case 10:
+							taskNo = 'J';
+						break;
+						case 11:
+							taskNo = 'K';
+						break;
+						case 12:
+							taskNo = 'L';
+						break;
+						case 13:
+							taskNo = 'M';
+						break;
+						case 14:
+							taskNo = 'N';
+						break;
+						case 15:
+							taskNo = 'O';
+						break;
+						case 16:
+							taskNo = 'P';
+						break;
+						case 17:
+							taskNo = 'Q';
+						break;
+						case 18:
+							taskNo = 'R';
+						break;
+						case 19:
+							taskNo = 'S';
+						break;
+						case 20:
+							taskNo = 'T';
+						break;
+						case 21:
+							taskNo = 'U';
+						break;
+						case 22:
+							taskNo = 'V';
+						break;
+						case 23:
+							taskNo = 'W';
+						break;
+						case 24:
+							taskNo = 'X';
+						break;
+						case 25:
+							taskNo = 'Y';
+						break;
+						case 26:
+							taskNo = 'Z';
 						break;
 						default:
-							taskNo = 'D';
+							taskNo = '?';
 	
 					}
 					printf("%c",  taskNo );
