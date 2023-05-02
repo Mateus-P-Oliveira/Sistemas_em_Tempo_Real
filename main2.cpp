@@ -1,5 +1,3 @@
-//Modificação do exercicio 
-
 #include <iostream>
 #include <bits/stdc++.h>
 #define C 0 //Execution
@@ -8,7 +6,7 @@
 #define copia_exec 3
 #define abs_D 4
 #define abs_upd 5
-#define old_exec 6
+#define old_exec 6 //Execução velha
 #define ESPERA_TASK_ID 9955
 using namespace std;
 
@@ -184,11 +182,10 @@ int main(){
  int timer = 0;
  float tempo_de_compu;
  char taskNo;
-
  Task *task;
  int trocaContx, oldTask=-1;
-int preemp = 0;
-int already = 1;
+ int preemp = 0;
+ 
 	while(N != 0 || T !=0 ){		
 		cin >> N >> T;
 		trocaContx = 0;
