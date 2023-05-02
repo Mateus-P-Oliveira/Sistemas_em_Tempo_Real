@@ -214,6 +214,9 @@ int main(){
 			{
 				printf(".");
 				trocaContx++;
+				if(task[oldTask].T[old_exec] != 0){
+					preemp++;
+				}	
 			}
 
 			if (active_task_id != ESPERA_TASK_ID)
